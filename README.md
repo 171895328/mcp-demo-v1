@@ -4,6 +4,7 @@
 
    ```bash
    cd MCPClient
+   python MCPWeb.py
 
 `前端页面入口为`
 Web/index.html
