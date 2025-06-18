@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "office-assistant": {
+      "command": "python",
+      "args": ["E:\\DevSoftware\\VSCode\\MCP\\office-editor-mcp-main\\powerpoint_server.py"],
+      "env": {}
+    }
+  }
+}

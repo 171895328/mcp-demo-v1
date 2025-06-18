@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP AI - 智能对话</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script> <!-- Optional: renders math on initial load -->
+
+    <!-- 2. 图标库 (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 3. 代码高亮样式 (Highlight.js) - 使用最新版本 11.9.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"> <!-- 或者选择你喜欢的主题 -->
+
+    <!-- 4. Markdown 解析库 (Marked.js) - 使用最新稳定版 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script> <!-- 添加 defer 推荐 -->
+
+    <!-- 5. 代码高亮核心库 (Highlight.js) - 使用最新版本 11.9.0 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script> <!-- 添加 defer 推荐 -->
+
+    <!-- 6. 代码高亮语言支持 (按需添加) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>MCP AI</span>
+                </div>
+                <button id="new-chat-btn" class="new-chat-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>新对话</span>
+                </button>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="history-section">
+                    <h3>历史记录</h3>
+                    <div class="chat-history">
+                        <div class="history-item active">
+                            <i class="fas fa-comment"></i>
+                            <span>当前对话</span>
+                        </div>
+                        <!-- 历史记录项会在这里动态添加 -->
+                    </div>
+                </div>
+                
+                <div class="commands-section">
+                    <h3>常用命令</h3>
+                    <div class="command-list">
+                        <button class="command-btn" data-command="reset">
+                            <i class="fas fa-sync-alt"></i>
+                            <span>重置对话</span>
+                        </button>
+                        <button class="command-btn" data-command="key">
+                            <i class="fas fa-key"></i>
+                            <span>标记关键信息</span>
+                        </button>
+                        <button class="command-btn" data-command="/resources">
+                            <i class="fas fa-database"></i>
+                            <span>资源列表</span>
+                        </button>
+                        <button class="command-btn" data-command="/prompts">
+                            <i class="fas fa-list-alt"></i>
+                            <span>提示词列表</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="settings-section">
+                    <div class="toggle-container">
+                        <span>显示思考过程</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="show-reasoning" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="toggle-container">
+                        <span>深色模式</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dark-mode">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="connection-status" class="connection-status disconnected">
+                    <i class="fas fa-circle"></i>
+                    <span>未连接</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="chat-header">
+                <button id="toggle-sidebar" class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>MCP AI 智能对话</h1>
+                <div class="header-actions">
+                    <button id="clear-btn" class="action-btn" title="清空对话">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="chat-container" class="chat-container">
+                <div class="welcome-screen">
+                    <div class="welcome-content">
+                        <div class="welcome-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h2>欢迎使用 MCP AI</h2>
+                        <p>您的智能助手已准备就绪，可以回答问题、提供建议、执行任务。</p>
+                    </div>
+                    <div class="example-queries">
+                        <h3>您可以尝试这些问题：</h3>
+                        <div class="example-buttons">
+                            <button class="example-btn" data-example="查询北京的天气如何？">
+                                <i class="fas fa-cloud-sun"></i>
+                                <span>查询北京的天气如何？</span>
+                            </button>
+                            <button class="example-btn" data-example="帮我写一段Python代码来处理JSON数据">
+                                <i class="fas fa-code"></i>
+                                <span>帮我写一段Python代码来处理JSON数据</span>
+                            </button>
+                            <button class="example-btn" data-example="解释一下什么是机器学习？">
+                                <i class="fas fa-brain"></i>
+                                <span>解释一下什么是机器学习？</span>
+                            </button>
+                            <button class="example-btn" data-example="帮我规划一次旅行">
+                                <i class="fas fa-plane"></i>
+                                <span>帮我规划一次旅行</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="chat-messages" class="chat-messages">
+                    <!-- 消息内容会在这里动态添加 -->
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="user-input" 
+                        placeholder="输入消息，按Enter发送，Shift+Enter换行..." 
+                        rows="1"
+                    ></textarea>
+                    <button id="send-button" class="send-button" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <span class="footer-text">MCP AI 是您的智能助手，但回答可能并不总是准确</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

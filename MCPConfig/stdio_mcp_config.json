@@ -1,0 +1,95 @@
+{
+    "servers": {
+        "weather": {
+            "command": "python",
+            "args": ["../mcp_servers/weather-server.py"],
+            "env": null
+        },
+        "file-system": {
+            "command": "python",
+            "args": ["../mcp_servers/file-system-server.py"],
+            "env": null
+        },
+        "fetch": {
+            "command": "uvx",
+            "args": ["mcp-server-fetch"]
+        },
+        "mongodb": {
+            "command": "cmd",
+            "args": [
+                "/c",
+                "cd ../mcp_servers/mcp-mongo-server-main && node --loader ts-node/esm src//index.ts",
+                "mongodb://localhost:27017/school_db?authSource=admin"
+            ]
+        },
+        "mem0-mcp": {
+            "command": "cmd",
+            "args": [
+                "/c",
+                "npx",
+                "-y",
+                "@pinkpixel/mem0-mcp"
+            ],
+            "env": {
+                "MEM0_API_KEY": "your_mem0_key",
+                "DEFAULT_USER_ID": "MCP"
+            },
+            "disabled": false,
+            "alwaysAllow": [
+                "add_memory",
+                "search_memory"
+            ]
+        },
+        "exa": {
+            "command": "cmd",
+            "args": [
+                "/c",
+                "node",
+                "../mcp_servers/exa-mcp-server/build/index.js"
+            ],
+            "env": {
+                "EXA_API_KEY": "your_exa_key"
+            }
+        },
+        "whereIam": {
+            "command": "python",
+            "args": [
+                "../mcp_servers/whereami-mcp/main.py"
+            ]
+        },
+        "context7": {
+            "command": "cmd",
+            "args": [
+                "/c",
+                "cd ../mcp_servers/context7 && node --loader ts-node/esm src/index.ts"
+            ]
+        },
+        "arxiv-mcp-server": {
+            "command": "uv",
+            "args": [
+                "tool",
+                "run",
+                "arxiv-mcp-server",
+                "--storage-path", "C:/Users/wasd/Desktop/myfolder/arxiv_essay"
+            ]
+        },
+        "google-scholar": {
+            "command": "python",
+            "args": [
+                "../mcp_servers/Google-Scholar-MCP-Server/google_scholar_server.py"
+            ],
+            "env": {},
+            "disabled": false,
+            "autoApprove": []
+        },
+        "execute-command": {
+            "command": "python",
+            "args": ["../mcp_servers/execute_command_mcp.py"],
+            "env": null
+        },
+        "excel-stdio": {
+         "command": "uvx",
+         "args": ["excel-mcp-server", "stdio"]
+      }
+    }
+}

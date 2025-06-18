@@ -1,0 +1,9 @@
+{
+
+    "servers": {
+        "amap-amap-sse": {
+          "url": "https://mcp.amap.com/sse?key=your_gaode_key"
+        }
+      }
+    
+}

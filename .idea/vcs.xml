@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/mcp_servers/Google-Scholar-MCP-Server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mcp_servers/context7" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mcp_servers/exa-mcp-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/mcp_servers/whereami-mcp" vcs="Git" />
+  </component>
+</project>
